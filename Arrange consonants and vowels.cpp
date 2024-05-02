@@ -1,90 +1,125 @@
-geeksforgeeks
-Courses
-On Offers
-Tutorials
-Jobs
-Practice
-Contests
-P
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    char data;
+    struct Node *next;
+
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+void printlist(Node *head) {
+    if (head == NULL)
+        return;
+    while (head != NULL) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+void append(struct Node **headRef, char data) {
+    struct Node *new_node = new Node(data);
+    struct Node *last = *headRef;
+
+    if (*headRef == NULL) {
+        *headRef = new_node;
+        return;
+    }
+    while (last->next != NULL)
+        last = last->next;
+    last->next = new_node;
+    return;
+}
 
 
-Arrange Consonants and Vowels
-MediumAccuracy: 49.98%Submissions: 32K+Points: 4
- Done with winning Geekbits? Now win GfG Bag, GfG T-shirt & much more just by writing your experiences. Start Writing, Start Winning.
-banner
-Given a singly linked list having n nodes containing english alphabets ('a'-'z'). Rearrange the linked list in such a way that all the vowels come before the consonants while maintaining the order of their arrival. 
+// } Driver Code Ends
+/*
+Structure of the node of the linked list is as
+struct Node
+{
+    char data;
+    struct Node *next;
 
-Example 1:
+    Node(char x){
+        data = x;
+        next = NULL;
+    }
 
-Input:
-n = 9
-linked list: a -> b -> c -> d -> e -> f -> g -> h -> i 
-Output: 
-a -> e -> i -> b -> c -> d -> f -> g -> h
-Explanation: 
-After rearranging the input linked list according to the condition the resultant linked list will be as shown in output.
-Example 2:
+};
+*/
 
-Input:
-n = 8
-linked list: a -> b -> a -> b -> d -> e -> e -> d 
-Output: 
-a -> a -> e -> e -> b -> b -> d -> d
-Explanation: 
-After rearranging the input linked list according to the condition the resultant linked list will be as shown in output.
-Your Task:
-Your task is to complete the function arrangeCV(), which takes head of linked list and arranges the list in such a way that all the vowels come before the consonants while maintaining the order of their arrival and returns the head of the updated linked list.
-
-Expected Time Complexity :  O(n)
-Expected Auxiliary Space :  O(1)
-
-Constraints:
-1 <= n <= 104
-'a' <= elements of linked list <= 'z'
-
-Seen this question in a real interview before ?
-1/4
-Yes
-No
-Company Tags
-Topic Tags
-If you are facing any issue on this page. Please let us know.
-Output Window
-Problem Solved Successfully
-Suggest Feedback
-Test Cases Passed
-1120 / 1120
-Attempts : Correct / Total
-1 / 1
-Accuracy :
-100%
-Points Scored 
-4 / 4
-Your Total Score:
-105 
-Time Taken
-0.16
-Solve Next
-
-Linked List in Zig-Zag fashion
-Rearrange linked list in-place
-Move all zeros to the front of the linked list
-
-C++ (g++ 5.4)
-
-
-
+class Solution {
+  public:
+    // task is to complete this function
+    // function should return head to the list after making
+    // necessary arrangements
+    struct Node* arrangeCV(Node* head) {
+        // Code here
+        Node *vowel = NULL, *consonant = NULL, *start = NULL,
+         *end = NULL;
+    while (head != NULL) {
+        char x = head->data;
+        // Checking the current node data is vowel or
+        // not
+        if (x == 'a' || x == 'e' || x == 'i' || x == 'o'
+            || x == 'u') {
+            if (!vowel) {
+                vowel = new Node(x);
+                start = vowel;
+            }
+            else {
+                vowel->next = new Node(x);
+                vowel = vowel->next;
+            }
+        }
+        else {
+            if (!consonant) {
+                consonant = new Node(x);
+                end = consonant;
+            }
+            else {
+                consonant->next = new Node(x);
+                consonant = consonant->next;
+            }
+        }
+        head = head->next;
+    }
+    // In case when there is no vowel in the incoming LL
+    // then we have to return the head of the consonant LL
+    if (start == NULL)
+        return end;
+    // Connecting the vowel and consonant LL
+    vowel->next = end;
     return start;
+    }
+};
 
 
- 
+//{ Driver Code Starts.
 
-Custom Input
-Congratulations !
-You just earned 1 Geekbit for solving today’s POTD.
-gfg_coin
-streak-imgCurrent streak : 1 day
-Keep up your streak to earn more. See you tomorrow !
-banner
-Get a chance to call HR directly. Sign up on Indeed, our POTD partner. 
+// task is to complete this function
+int main() {
+    int T;
+    cin >> T;
+    while (T--) {
+        int n;
+        char tmp;
+        struct Node *head = NULL;
+        cin >> n;
+        while (n--) {
+            cin >> tmp;
+            append(&head, tmp);
+        }
+        Solution obj;
+        head = obj.arrangeCV(head);
+        printlist(head);
+    }
+    return 0;
+}
 
+// } Driver Code Ends
