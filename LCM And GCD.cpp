@@ -10,9 +10,9 @@ class Solution {
     long long a = A, b = B;
     
     while (b != 0) {
-        long long temp = b;
-        b = a % b;
-        a = temp;
+        long long rem = a%b;
+        a = b;
+        b = rem;
     }
     
     long long gcd = a;
